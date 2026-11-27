@@ -10,6 +10,7 @@ export {
 } from "./card";
 export { Badge, badgeVariants } from "./badge";
 export { Input } from "./input";
+export { Textarea } from "./textarea";
 export { ProgressBar, ProgressRing } from "./progress";
 export {
   Dialog,
