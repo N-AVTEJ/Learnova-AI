@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   Bot,
   ClipboardCheck,
+  Network,
 } from "lucide-react";
 import { Button } from "@/components/ui";
 import { createClient } from "@/lib/supabase/client";
@@ -22,6 +23,7 @@ interface NavbarProps {
 
 const AUTH_LINKS = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/knowledge-graph", label: "Knowledge Graph", icon: Network },
   { href: "/tutor", label: "AI Tutor", icon: Bot },
   { href: "/assessments", label: "Assessments", icon: ClipboardCheck },
 ];
