@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import {
   ArrowRight,
@@ -26,6 +24,7 @@ import {
 import { Navbar } from "@/components/shared/navbar";
 import { PageTransition } from "@/components/shared/page-transition";
 import { KnowledgeGraphPreview } from "@/components/landing/knowledge-graph-preview";
+import { createClient } from "@/lib/supabase/server";
 
 const FEATURES = [
   {
@@ -97,10 +96,26 @@ const STEPS = [
   },
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  let userEmail: string | null = null;
+  if (
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ) {
+    try {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      userEmail = user?.email ?? null;
+    } catch {
+      userEmail = null;
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background bg-radial-spotlight">
-      <Navbar />
+      <Navbar userEmail={userEmail} />
 
       <main className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
         <PageTransition>

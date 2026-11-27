@@ -173,6 +173,21 @@ export function MarkdownRenderer({ content }: { content: string }) {
             {lines.map((line, lineIdx) => {
               const trimmed = line.trim();
               if (!trimmed) return null;
+              if (trimmed.startsWith("### ")) {
+                return (
+                  <h4 key={lineIdx} className="pt-1 text-body font-semibold text-foreground">
+                    {renderInlineText(trimmed.slice(4))}
+                  </h4>
+                );
+              }
+              if (trimmed.startsWith("## ") || trimmed.startsWith("# ")) {
+                const text = trimmed.startsWith("## ") ? trimmed.slice(3) : trimmed.slice(2);
+                return (
+                  <h3 key={lineIdx} className="pt-1 text-h3 text-foreground">
+                    {renderInlineText(text)}
+                  </h3>
+                );
+              }
               if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
                 return (
                   <div key={lineIdx} className="flex gap-2 pl-2">

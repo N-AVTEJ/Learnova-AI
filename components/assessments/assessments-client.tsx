@@ -316,7 +316,12 @@ export function AssessmentsClient() {
     const total = activeAssessment.questions.length;
     const answeredCount = activeAssessment.questions.filter((q, idx) => {
       const qid = String(q.id || `q${idx + 1}`);
-      return Boolean((answers[qid] || "").trim());
+      const val = (answers[qid] || "").trim();
+      if (!val) return false;
+      if (q.type === "code" && q.starter_code && val === q.starter_code.trim()) {
+        return false;
+      }
+      return true;
     }).length;
     const progressPct = total > 0 ? (answeredCount / total) * 100 : 0;
 

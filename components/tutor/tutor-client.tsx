@@ -168,6 +168,30 @@ export function TutorClient({
           }
         }
       }
+
+      const trailing = buffer.trim();
+      if (trailing.startsWith("data: ")) {
+        const payload = trailing.slice(6).trim();
+        if (payload && payload !== "[DONE]") {
+          try {
+            const parsed = JSON.parse(payload);
+            if (parsed.error) {
+              throw new Error(parsed.error);
+            }
+            if (parsed.text) {
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId
+                    ? { ...m, content: m.content + parsed.text }
+                    : m
+                )
+              );
+            }
+          } catch (err) {
+            if (!(err instanceof SyntaxError)) throw err;
+          }
+        }
+      }
     } catch (err) {
       const msg =
         err instanceof Error ? err.message : "Failed to reach AI Tutor";
